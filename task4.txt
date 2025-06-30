@@ -1,0 +1,135 @@
+🧩 Task 4: Build a temperature converter program.
+
+🧩 Objective: Enable users to input temperatures
+    and choose the conversion direction between
+    Fahrenheit and Celsius.
+   
+    Create a Python program that:
+
+   - Accepts temperature input from the user.
+   - Lets the user choose the conversion direction (Celsius to Fahrenheit or Fahrenheit to Celsius).
+   - Performs the conversion.
+   - Displays the result.
+   - Can be tested with different input values.
+
+   ✅ Steps:
+   
+   ✅ 1.Design a program to accept temperature 
+    input.
+   - Get a number from the user (temperature) and store it.
+
+    Python Code Example:
+
+    temperature = float(input("Enter the temperature: "))
+
+  💡 float() is used to allow decimal inputs like 36.6.
+
+   ✅2.Implement logic for temperature conversion.
+    - Use math formulas to convert the temperature
+    - Formulas:
+    i) Celsius to Fahrenheit: F = (C × 9/5) + 32
+    ii) Fahrenheit to Celsius: C = (F − 32) × 5/9
+
+     Python Code Example:
+
+     def celsius_to_fahrenheit(celsius):
+           return (celsius * 9/5) + 32
+     def fahrenheit_to_celsius(fahrenheit):
+            return (fahrenheit - 32) * 5/9
+
+   ✅ 3.Allow users to choose the conversion 
+     direction.
+       - Ask the user whether they want to convert from:
+   i) Celsius to Fahrenheit (Option 1)
+   ii) Fahrenheit to Celsius (Option 2)
+
+    Python Code Example:
+    
+         print("Choose the conversion direction:")
+    print("1. Celsius to Fahrenheit")
+    print("2. Fahrenheit to Celsius")
+    choice = input("Enter 1 or 2: ")
+
+  - Then use if to decide which function to run based on the choice:
+
+   if choice == '1':
+      celsius = float(input("Enter temperature in Celsius: "))
+      result = celsius_to_fahrenheit(celsius)
+      print(f"{celsius}°C is equal to {result:.2f}°F")
+   elif choice == '2':
+      fahrenheit = float(input("Enter temperature in Fahrenheit: "))
+      result = fahrenheit_to_celsius(fahrenheit)
+      print(f"{fahrenheit}°F is equal to {result:.2f}°C")
+   else:
+      print("Invalid option. Please choose 1 or 2.")
+
+  ✅ 4.Test the program with different input values.
+
+       - Now run the program and test with different values.
+
+             Test Input  	Conversion	Expected Output
+                  0	                1	0°C = 32°F
+                 100	                1	100°C = 212°F
+                  32	                2	32°F = 0°C
+                98.6	                2	98.6°F ≈ 37°C
+  🔹 full pyhton program
+
+        def celsius_to_fahrenheit(celsius):
+                     return (celsius * 9/5) + 32
+
+        def fahrenheit_to_celsius(fahrenheit):
+                     return (fahrenheit - 32) * 5/9
+
+           def main():
+                                  print("Temperature Converter")
+                                print("1. Celsius to Fahrenheit")
+                                print("2. Fahrenheit to Celsius")
+                                    choice = input("Enter 1 or 2: ")
+
+                                 if choice == '1':
+                                  celsius = float(input("Enter temperature in Celsius: "))
+                                result = celsius_to_fahrenheit(celsius)
+                                    print(f"{celsius}°C is equal to {result:.2f}°F")
+                                       elif choice == '2':
+                                       fahrenheit = float(input("Enter temperature in Fahrenheit: "))
+                                            result = fahrenheit_to_celsius(fahrenheit)
+                                              print(f"{fahrenheit}°F is equal to {result:.2f}°C")
+                                                 else:
+                                          print("Invalid input. Please enter 1 or 2.")
+
+                              # Run the program
+                 main()
+
+
+   🔹 output: 
+      C:\Users\HP\OneDrive\Desktop\Nikita>python temperature_converter.py
+      Temperature Converter
+      1. Celsius to Fahrenheit
+      2. Fahrenheit to Celsius
+      Enter 1 or 2: 1
+      Enter temperature in Celsius: 0
+      0.0°C is equal to 32.00°F
+
+      C:\Users\HP\OneDrive\Desktop\Nikita>python temperature_converter.py
+      Temperature Converter
+      1. Celsius to Fahrenheit
+      2. Fahrenheit to Celsius
+      Enter 1 or 2: 1
+      Enter temperature in Celsius: 100
+      100.0°C is equal to 212.00°F
+
+      C:\Users\HP\OneDrive\Desktop\Nikita>python temperature_converter.py
+      Temperature Converter
+      1. Celsius to Fahrenheit
+      2. Fahrenheit to Celsius
+      Enter 1 or 2: 2
+      Enter temperature in Fahrenheit: 98.6
+      98.6°F is equal to 37.00°C
+
+      C:\Users\HP\OneDrive\Desktop\Nikita>python temperature_converter.py
+      Temperature Converter
+      1. Celsius to Fahrenheit
+      2. Fahrenheit to Celsius
+      Enter 1 or 2: 2
+      Enter temperature in Fahrenheit: 32
+      32.0°F is equal to 0.00°C
