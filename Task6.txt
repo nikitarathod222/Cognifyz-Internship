@@ -1,0 +1,275 @@
+✅Task 6: Create a program for
+interactive web scraping.
+
+✅Objective: Fetch data from a website and
+present it in a user-friendly way using a
+simple web scraping library.
+
+✅ Requirements
+ i)Install these Python libraries:
+   - pip install requests beautifulsoup4
+
+ ii)For interactive UI (optional):
+   - pip install streamlit
+
+✅Steps:
+  
+🔶1.Select a website and identify the data to
+     be scraped.
+ - Choose a website with data that can be legally scraped (check the site's robots.txt or terms).
+
+ - Example: Let's scrape quotes from http://quotes.toscrape.com
+
+📝 Data to Scrape:
+
+  - Quote text
+  - Author name
+  - Tags
+
+🔶2.Utilize a web scraping library to fetch the 
+     data.
+ 👉 scraper.py
+
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_quotes(url="http://quotes.toscrape.com"):
+    response = requests.get(url)
+    if response.status_code != 200:
+        return f"Error: Failed to load page (Status {response.status_code})"
+    
+    soup = BeautifulSoup(response.text, 'html.parser')
+    quotes_data = []
+    
+    for quote in soup.select('.quote'):
+        text = quote.find('span', class_='text').get_text()
+        author = quote.find('small', class_='author').get_text()
+        tags = [tag.get_text() for tag in quote.select('.tags .tag')]
+        quotes_data.append({
+            'text': text,
+            'author': author,
+            'tags': tags
+        })
+    
+    return quotes_data
+
+🔶3.Design a user-friendly presentation
+     format.
+  - 3A. Console Presentation:
+  - Add this to your scraper.py to display the scraped data nicely:
+
+def display_quotes(quotes):
+    for i, quote in enumerate(quotes, 1):
+        print(f"\nQuote {i}:")
+        print(f"Text  : {quote['text']}")
+        print(f"Author: {quote['author']}")
+        print(f"Tags  : {', '.join(quote['tags'])}")
+
+   - 3B. Or Use a Web Interface with Streamlit
+
+# Save as streamlit_scraper.py
+import streamlit as st
+from scraper import scrape_quotes
+
+st.title("Quotes Web Scraper")
+url = st.text_input("Enter URL", "http://quotes.toscrape.com")
+
+if st.button("Scrape"):
+    quotes = scrape_quotes(url)
+    if isinstance(quotes, str):
+        st.error(quotes)
+    else:
+        for quote in quotes:
+            st.markdown(f"**{quote['text']}**  \n*by {quote['author']}*  \nTags: {', '.join(quote['tags'])}")
+
+🔶4.Test the program with different websites.
+   - Try modifying scrape_quotes() to work with:
+
+   i)https://books.toscrape.com (scrape book titles, prices, ratings)
+   ii)https://news.ycombinator.com (scrape post titles)
+  
+Example (Books):
+
+def scrape_books(url="https://books.toscrape.com"):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    books = []
+    for book in soup.select('article.product_pod'):
+        title = book.h3.a['title']
+        price = book.select_one('.price_color').text
+        rating = book.p['class'][1]  # e.g. "One", "Two"
+        books.append({
+            'title': title,
+            'price': price,
+            'rating': rating
+        })
+    return books
+✅ How to Run the Program
+   1. Console Script
+     - python scraper.py
+     - And include this at the bottom of scraper.py:
+if __name__ == "__main__":
+    quotes = scrape_quotes()
+    display_quotes(quotes)
+
+   2. Streamlit Web App
+    - streamlit run streamlit_scraper.py
+
+import requests
+from bs4 import BeautifulSoup
+
+✅full python program:
+
+def scrape_quotes(url="http://quotes.toscrape.com"):
+    response = requests.get(url)
+    if response.status_code != 200:
+        return f"Error: Failed to load page (Status {response.status_code})"
+    
+    soup = BeautifulSoup(response.text, 'html.parser')
+    quotes_data = []
+    
+    for quote in soup.select('.quote'):
+        text = quote.find('span', class_='text').get_text()
+        author = quote.find('small', class_='author').get_text()
+        tags = [tag.get_text() for tag in quote.select('.tags .tag')]
+        quotes_data.append({
+            'text': text,
+            'author': author,
+            'tags': tags
+        })
+    
+    return quotes_data
+def display_quotes(quotes):
+    for i, quote in enumerate(quotes, 1):
+        print(f"\nQuote {i}:")
+        print(f"Text  : {quote['text']}")
+        print(f"Author: {quote['author']}")
+        print(f"Tags  : {', '.join(quote['tags'])}")
+# Save as streamlit_scraper.py
+import streamlit as st
+from scraper import scrape_quotes
+
+st.title("Quotes Web Scraper")
+url = st.text_input("Enter URL", "http://quotes.toscrape.com")
+
+if st.button("Scrape"):
+    quotes = scrape_quotes(url)
+    if isinstance(quotes, str):
+        st.error(quotes)
+    else:
+        for quote in quotes:
+            st.markdown(f"**{quote['text']}**  \n*by {quote['author']}*  \nTags: {', '.join(quote['tags'])}")
+def scrape_books(url="https://books.toscrape.com"):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    books = []
+    for book in soup.select('article.product_pod'):
+        title = book.h3.a['title']
+        price = book.select_one('.price_color').text
+        rating = book.p['class'][1]  # e.g. "One", "Two"
+        books.append({
+            'title': title,
+            'price': price,
+            'rating': rating
+        })
+    return books
+if __name__ == "__main__":
+    quotes = scrape_quotes()
+    display_quotes(quotes)
+ 
+
+ ✅output:
+Python 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)] on win32
+Enter "help" below or click "Help" above for more information.
+
+======================== RESTART: C:/Users/HP/scraper.py =======================
+2025-06-28 22:44:55.171 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.434 WARNING streamlit: 
+  [33m[1mWarning:[0m to view a Streamlit app on a browser, use Streamlit in a file and
+  run it with the following command:
+
+    streamlit run [FILE_NAME] [ARGUMENTS]
+2025-06-28 22:44:55.440 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.447 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.453 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.460 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.464 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.470 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.474 WARNING streamlit.runtime.state.session_state_proxy: Session state does not function when running a script without `streamlit run`
+2025-06-28 22:44:55.479 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.485 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.499 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.504 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.510 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.516 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.521 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.528 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.535 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.546 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.554 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.564 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.572 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.581 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.589 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.598 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.611 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.621 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.632 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.647 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.656 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.666 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.680 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.689 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-06-28 22:44:55.700 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+
+Quote 1:
+Text  : “The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”
+Author: Albert Einstein
+Tags  : change, deep-thoughts, thinking, world
+
+Quote 2:
+Text  : “It is our choices, Harry, that show what we truly are, far more than our abilities.”
+Author: J.K. Rowling
+Tags  : abilities, choices
+
+Quote 3:
+Text  : “There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”
+Author: Albert Einstein
+Tags  : inspirational, life, live, miracle, miracles
+
+Quote 4:
+Text  : “The person, be it gentleman or lady, who has not pleasure in a good novel, must be intolerably stupid.”
+Author: Jane Austen
+Tags  : aliteracy, books, classic, humor
+
+Quote 5:
+Text  : “Imperfection is beauty, madness is genius and it's better to be absolutely ridiculous than absolutely boring.”
+Author: Marilyn Monroe
+Tags  : be-yourself, inspirational
+
+Quote 6:
+Text  : “Try not to become a man of success. Rather become a man of value.”
+Author: Albert Einstein
+Tags  : adulthood, success, value
+
+Quote 7:
+Text  : “It is better to be hated for what you are than to be loved for what you are not.”
+Author: André Gide
+Tags  : life, love
+
+Quote 8:
+Text  : “I have not failed. I've just found 10,000 ways that won't work.”
+Author: Thomas A. Edison
+Tags  : edison, failure, inspirational, paraphrased
+
+Quote 9:
+Text  : “A woman is like a tea bag; you never know how strong it is until it's in hot water.”
+Author: Eleanor Roosevelt
+Tags  : misattributed-eleanor-roosevelt
+
+Quote 10:
+Text  : “A day without sunshine is like, you know, night.”
+Author: Steve Martin
+Tags  : humor, obvious, simile
+
+
