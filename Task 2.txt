@@ -1,0 +1,71 @@
+✅ Task 2: Generate and Print a Simple Number Pattern
+
+🎯 Objective:Utilize loops to control 
+   the structure of number patterns.
+
+   - Use loops in Python to generate and print structured number patterns like a pyramid.
+
+   
+ ✅Steps:
+
+  🔹1. Select a number pattern type (e.g.,pyramid).
+
+     - We will choose the Pyramid Pattern.
+
+     - Example for 5 rows:
+
+           1
+          1 2
+         1 2 3
+        1 2 3 4
+       1 2 3 4 5
+ 
+  🔹 2.Develop a program to generate the selected pattern.
+
+     - Here’s a complete Python program for the pyramid pattern
+      
+     - Python
+
+     # Task 2: Generate and print simple number patterns
+
+     # Step 1: Select number of rows for the pattern
+     n = int(input("Enter number of rows for the pyramid: "))
+
+     # Step 2 & 3: Use loops to generate the pyramid pattern
+     for i in range(1, n + 1):
+     # Print spaces to center the numbers
+     print(" " * (n - i), end="")
+
+     # Print increasing numbers from 1 to i
+     for j in range(1, i + 1):
+        print(j, end=" ")
+
+     # Move to next line
+     print()
+
+     # Step 4: The output shows the correct pyramid pattern 
+
+   output:
+
+   - Enter number of rows for the pyramid: 1
+  
+  🔹3.Use loops to control the structure of the pattern.
+    
+     - Outer loop controls the number of rows.
+
+     - First print(" " * (n - i), end="") adds spaces for alignment.
+
+     - Inner loop prints numbers from 1 to i.
+   
+   🔹4.Verify the correctness of the generate the pattern. 
+     
+     - Run the program and input a number like 5
+     
+     - Expected output:
+
+            1
+           1 2
+          1 2 3
+         1 2 3 4
+        1 2 3 4 5
+
