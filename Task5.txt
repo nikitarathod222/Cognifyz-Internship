@@ -1,0 +1,225 @@
+✅Task 5: Enhance the CRUD
+application to store task data persistently
+using file I/O.
+
+✅Objective: Implement file storage for tasks
+to enable saving and loading from a text file.
+
+ - Modify your CRUD task manager to save and load tasks from a text file.
+ - Handle file errors safely.
+ - Confirm that data persists after restarting the program.
+
+🧾 Steps:
+
+✅ 1.Modify the application to read and write 
+    tasks to a text file.
+
+ - We'll use a text file (tasks.txt) to store each task on a separate line. 
+   Let's assume each task is a simple string (e.g., "Buy milk"). 
+   Here's how to implement save and load functions:
+
+🔹 A. Define File Name
+   - TASK_FILE = "tasks.txt"
+
+🔹 B. Load Tasks from File
+   - def load_tasks():
+    tasks = []
+    try:
+        with open(TASK_FILE, "r") as file:
+            for line in file:
+                tasks.append(line.strip())
+    except FileNotFoundError:
+        print("No previous task file found. Starting with an empty task list.")
+    return tasks
+🔹 C. Save Tasks to File
+   -def save_tasks(tasks):
+    try:
+        with open(TASK_FILE, "w") as file:
+            for task in tasks:
+                file.write(task + "\n")
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
+
+ ✅ 2.Implement error handling for file
+     operations.
+   - Now, build the core app functions and make sure the file is updated as needed:
+   def display_tasks(tasks):
+    if not tasks:
+        print("No tasks available.")
+    else:
+        for i, task in enumerate(tasks):
+            print(f"{i+1}. {task}")
+
+  def add_task(tasks):
+    task = input("Enter new task: ")
+    tasks.append(task)
+    save_tasks(tasks)
+    print("Task added.")
+
+  def delete_task(tasks):
+    display_tasks(tasks)
+    try:
+        index = int(input("Enter task number to delete: ")) - 1
+        if 0 <= index < len(tasks):
+            removed = tasks.pop(index)
+            save_tasks(tasks)
+            print(f"Deleted: {removed}")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+  def update_task(tasks):
+    display_tasks(tasks)
+    try:
+        index = int(input("Enter task number to update: ")) - 1
+        if 0 <= index < len(tasks):
+            new_task = input("Enter updated task: ")
+            tasks[index] = new_task
+            save_tasks(tasks)
+            print("Task updated.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+  ✅ 3.Test the persistence of task data.
+    - Use a menu to allow the user to interact with the program:
+    ➤ Testing Instructions:
+     Run the script:
+
+     python your_script_name.py
+
+    - Add some tasks.
+    - Close the program.
+    - Re-run the program.
+    - Tasks should still appear — they were saved in tasks.txt.
+
+   ✅ Full python program:
+
+   TASK_FILE = "tasks.txt"
+
+  def load_tasks():
+    tasks = []
+    try:
+        with open(TASK_FILE, "r") as file:
+            for line in file:
+                tasks.append(line.strip())
+    except FileNotFoundError:
+        print("No previous task file found. Starting with an empty task list.")
+    return tasks
+
+  def save_tasks(tasks):
+    try:
+        with open(TASK_FILE, "w") as file:
+            for task in tasks:
+                file.write(task + "\n")
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
+
+  def display_tasks(tasks):
+    if not tasks:
+        print("No tasks available.")
+    else:
+        for i, task in enumerate(tasks):
+            print(f"{i+1}. {task}")
+
+  def add_task(tasks):
+    task = input("Enter new task: ")
+    tasks.append(task)
+    save_tasks(tasks)
+    print("Task added.")
+
+  def delete_task(tasks):
+    display_tasks(tasks)
+    try:
+        index = int(input("Enter task number to delete: ")) - 1
+        if 0 <= index < len(tasks):
+            removed = tasks.pop(index)
+            save_tasks(tasks)
+            print(f"Deleted: {removed}")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+  def update_task(tasks):
+    display_tasks(tasks)
+    try:
+        index = int(input("Enter task number to update: ")) - 1
+        if 0 <= index < len(tasks):
+            new_task = input("Enter updated task: ")
+            tasks[index] = new_task
+            save_tasks(tasks)
+            print("Task updated.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+  def main():
+    tasks = load_tasks()
+    
+    while True:
+        print("\n--- Task Manager ---")
+        print("1. View Tasks")
+        print("2. Add Task")
+        print("3. Delete Task")
+        print("4. Update Task")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == "1":
+            display_tasks(tasks)
+        elif choice == "2":
+            add_task(tasks)
+        elif choice == "3":
+            delete_task(tasks)
+        elif choice == "4":
+            update_task(tasks)
+        elif choice == "5":
+            print("Saving tasks and exiting...")
+            save_tasks(tasks)
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+   if __name__ == "__main__":
+    main()
+
+  ✅ output:
+
+  Python 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)] on win32
+  Enter "help" below or click "Help" above for more information.
+
+  ======================= RESTART: C:/Users/HP/TASK_FILE.py ======================
+  No previous task file found. Starting with an empty task list.
+
+  --- Task Manager ---
+  1. View Tasks
+  2. Add Task
+  3. Delete Task
+  4. Update Task
+  5. Exit
+  Enter your choice: 2
+  Enter new task: 5
+  Task added.
+
+  --- Task Manager ---
+  1. View Tasks
+  2. Add Task
+  3. Delete Task
+  4. Update Task
+  5. Exit
+  Enter your choice: 1
+  1. 5
+
+  --- Task Manager ---
+  1. View Tasks
+  2. Add Task
+  3. Delete Task
+  4. Update Task
+  5. Exit
+
+
