@@ -1,0 +1,100 @@
+🧩 Task 1: Develop a basic text-based game
+
+🧩 Objective: Implement a simple game using
+   conditional statements for game logic.
+
+✅ Step 1: Choose a Game Type
+
+- We will develop a Number Guessing Game — a great way to practice using conditional statements effectively.
+
+✅Step 2: Define the Game Rules and Logic
+
+- Game Title: Number Guessing Game
+
+📜 Rules:
+
+    - The program randomly selects a number between 1 and 10.
+
+    - The player has 3 attempts to guess the number.
+
+    - After each guess, the program provides feedback:
+
+     "Too high"
+
+     "Too low"
+
+     "Correct!"
+
+    - If the player does not guess correctly within 3 tries, the game ends with the correct answer.
+
+✅ Step 3: Use Conditional Statements for Game Flow
+
+Here's a complete Python implementation of the game:
+
+Python:
+
+import random
+
+def guessing_game():
+    number_to_guess = random.randint(1, 10)
+    attempts_left = 3
+
+    print("Welcome to the Number Guessing Game!")
+    print("I'm thinking of a number between 1 and 10.")
+    print("You have 3 attempts to guess it correctly.\n")
+
+    while attempts_left > 0:
+        guess = int(input("Enter your guess: "))
+
+        if guess == number_to_guess:
+            print("🎉 Correct! You guessed the number!")
+            break
+        elif guess < number_to_guess:
+            print("Too low.")
+        else:
+            print("Too high.")
+
+        attempts_left -= 1
+        print(f"Attempts remaining: {attempts_left}\n")
+
+    if attempts_left == 0:
+        print(f"Game Over! The correct number was {number_to_guess}.")
+
+# Run the game
+guessing_game()
+
+output:
+
+Welcome to the Number Guessing Game!
+I'm thinking of a number between 1 and 10.
+You have 3 attempts to guess it correctly.
+
+Enter your guess: 1
+Too low.
+Attempts remaining: 2
+
+Enter your guess: 4
+Too low.
+Attempts remaining: 1
+
+Enter your guess: 8
+Too low.
+Attempts remaining: 0
+
+Game Over! The correct number was 9.
+
+✅ Step 4: Test and Debug
+
+   Test the program with:
+
+ - A correct guess on the first, second, or third attempt.
+
+ - All incorrect guesses.
+
+ - Edge values (like guessing 1 or 10).
+
+ - Invalid inputs (e.g., letters or special characters).
+
+
+
+
